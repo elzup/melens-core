@@ -1,0 +1,16 @@
+{
+  "name": "melens-core",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "bplist": "^0.0.4",
+    "chokidar": "^3.4.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.1.0"
+  }
+}
