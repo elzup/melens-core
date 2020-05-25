@@ -44,7 +44,7 @@ function changedFile(path) {
 
     if (!prev) return
 
-    const saveFile = __dirname + '/' + ymd + '.json'
+    const saveFile = __dirname + '/out/' + ymd + '.json'
     const data = loadFileSync(saveFile)
 
     if (!data[hm]) data[hm] = { key: 0, mouse: 0 }
