@@ -12,7 +12,7 @@ const getDateStr = () => {
   const date = new Date()
   return {
     ymd: `${date.getFullYear()}-${pad02(date.getMonth() + 1)}-${pad02(
-      date.getHours()
+      date.getDate()
     )}`,
     date,
     hm: `${pad02(date.getHours())}${pad02(date.getMinutes())}`,
@@ -45,7 +45,6 @@ function changedFile(path) {
     if (!prev) return
 
     const saveFile = __dirname + '/' + ymd + '.json'
-
     const data = loadFileSync(saveFile)
 
     if (!data[hm]) data[hm] = { key: 0, mouse: 0 }
