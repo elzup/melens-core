@@ -29,27 +29,34 @@ const loadFileSync = (path) => {
   return {}
 }
 
-let prev = {}
+let prevMemo = null
+
+const clone = (obj) => JSON.parse(JSON.stringify(obj))
+
 function changedFile(path) {
   bplist.parseFile(path, function (err, object) {
     if (err) throw new Error(err)
-    const { ymd, hms } = getDateStr()
-    const saveFile = __dirname + ymd + '.json'
+    const { ymd, hm } = getDateStr()
+    const octs = object[0].global
+
+    const prev = clone(prevMemo)
+    prevMemo = octs
+
+    if (!prev) return
+
+    const saveFile = __dirname + '/' + ymd + '.json'
+
     const data = loadFileSync(saveFile)
-    const octs = object[0][ymd]
 
-    if (prev) {
-      prev = octs
-      return
+    if (!data[hm]) data[hm] = { key: 0, mouse: 0 }
+    const dk = octs.keyDown - prev.keyDown
+    const dm = octs.mouseDistance - prev.mouseDistance
+
+    if (dk + dm === 0) return
+    data[hm].key += dk
+    data[hm].mouse += dm
+    if (data[hm]) {
+      fs.writeFileSync(saveFile, JSON.stringify(data))
     }
-    if (!data[hms]) data[hms] = { key: 0, mouse: 0 }
-    data[hms].key += data.keyDown - octs.keyDown
-    data[hms].mouse += data.mouseDistance - octs.mouseDistance
-    console.log(hms)
-    console.log(data[hms])
-
-    fs.writeFileSync(saveFile, JSON.stringify(data))
-
-    prev = octs
   })
 }
